@@ -1,0 +1,33 @@
+PODS:
+  - CocoaAsyncSocket (7.6.2)
+  - CocoaHTTPServer (2.3):
+    - CocoaAsyncSocket
+    - CocoaLumberjack
+  - CocoaLumberjack (3.4.0):
+    - CocoaLumberjack/Default (= 3.4.0)
+    - CocoaLumberjack/Extensions (= 3.4.0)
+  - CocoaLumberjack/Default (3.4.0)
+  - CocoaLumberjack/Extensions (3.4.0):
+    - CocoaLumberjack/Default
+  - KTVHTTPCache (1.0.2):
+    - CocoaHTTPServer (~> 2.3)
+
+DEPENDENCIES:
+  - KTVHTTPCache
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - CocoaAsyncSocket
+    - CocoaHTTPServer
+    - CocoaLumberjack
+    - KTVHTTPCache
+
+SPEC CHECKSUMS:
+  CocoaAsyncSocket: 3541e024f48c54b251638ef72d51dd42808de932
+  CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
+  CocoaLumberjack: e033a5d8513357af2dd456eb66e202c325c30627
+  KTVHTTPCache: 5b46cde001869e199fcd079014173083fbf0328c
+
+PODFILE CHECKSUM: 33169078ee58644f49ea5ee7be71fc8b31f03775
+
+COCOAPODS: 1.5.3
