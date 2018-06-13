@@ -21,10 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.navigationController.navigationBar.hidden = YES;
     //self.title = @"HomeViewController";
-    self.navigationController.navigationBar.translucent = NO;
-    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    //self.navigationController.navigationBar.translucent = NO;
+    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -48,12 +48,13 @@
     return 10;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+   
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     VideoDetailPlayViewController *video = [VideoDetailPlayViewController new];
     video.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:video animated:YES];
     
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {
