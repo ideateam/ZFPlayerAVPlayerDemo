@@ -7,9 +7,12 @@
 //
 
 #import "VideoViewController.h"
+#import "VideoListTableViewCell.h"
+#import "VideoListModel.h"
 
 @interface VideoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) NSMutableArray *dataArray;
 @end
 
 @implementation VideoViewController
@@ -18,26 +21,72 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self getData];
+    
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
+    [_tableView registerClass:[VideoListTableViewCell class] forCellReuseIdentifier:@"cellid"];
     [self.view addSubview:_tableView];
+    
+    //解决上拉跳跃式加载问题
+//    if (@available(iOS 11.0, *)) {
+//        _tableView.estimatedRowHeight = 0;
+//        _tableView.estimatedSectionFooterHeight = 0;
+//        _tableView.estimatedSectionHeaderHeight = 0;
+//        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+//    }
+    
+    
+}
+-(void)getData{
+    
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:72];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"data" ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    
+   // NSLog(@"rootDict = %@",[rootDict valueForKey:@"list"]);
+    
+    for (NSDictionary * d in [rootDict valueForKey:@"list"] ) {
+        
+        VideoListModel *model = [VideoListModel modelWithDic:d];
+        [array addObject:model];
+        
+    }
+    
+    _dataArray = [NSMutableArray arrayWithArray:array];
+    
+    [_tableView reloadData];
+    
+    //NSLog(@"------------------%ld---------------",_dataArray.count);
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return 5;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
+    VideoListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cellid"];
+        cell = [[VideoListTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cellid"];
     }
-    cell.textLabel.text = @"11111111111";
+    
+    VideoListModel *model = _dataArray[indexPath.row];
+    cell.headerImageV = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.head]]]];
+    cell.headerNameLabel.text = [NSString stringWithFormat:@"%@",model.nick_name];
+    //cell.coverImageV = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.thumbnail_url]]]];
+    //cell.coverImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading_bgView"]];
+    //loading_bgView
+    cell.VideoLabel.text = [NSString stringWithFormat:@"%@",model.title];
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 120;
+    
+    //VideoListTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    return 250;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
