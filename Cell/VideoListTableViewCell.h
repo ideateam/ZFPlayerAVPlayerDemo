@@ -17,10 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoListTableViewCell : UITableViewCell
 
-- (void)setDelegate:(id<ZFTableViewCellDelegate>)delegate withIndexPath:(NSIndexPath *)indexPath;
+
 @property (nonatomic,strong) UIImageView *  headerImageV;
 @property (nonatomic,strong) UILabel *  headerNameLabel;
-@property (nonatomic,strong) UIImageView *  coverImageV;
+@property (nonatomic,strong) UIImageView *  coverImageView;
 @property (nonatomic, strong) UIView *fullMaskView;
 @property (nonatomic, weak) id<ZFTableViewCellDelegate> delegate;
 @property (nonatomic, strong) NSIndexPath *indexPath;
@@ -29,7 +29,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int cellHight;
 @property (nonatomic, copy) void(^playCallback)(void);
 
+- (void)setDelegate:(id<ZFTableViewCellDelegate>)delegate withIndexPath:(NSIndexPath *)indexPath;
 
+- (void)showMaskView;
+
+- (void)hideMaskView;
+
+- (void)setNormalMode;
 @end
 
 NS_ASSUME_NONNULL_END

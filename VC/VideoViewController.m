@@ -39,7 +39,11 @@
         [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
     }];
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    //视图切换的时候，停止播放
+    [self.player stop];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -53,13 +57,9 @@
     
     [self getData];
     
-    //解决上拉跳跃式加载问题
-//    if (@available(iOS 11.0, *)) {
-//        _tableView.estimatedRowHeight = 0;
-//        _tableView.estimatedSectionFooterHeight = 0;
-//        _tableView.estimatedSectionHeaderHeight = 0;
-//        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-//    }
+    // playerManager
+    self.playerManager = [[ZFAVPlayerManager alloc] init];
+    
     self.player = [[ZFPlayerController alloc] initWithScrollView:self.tableView playerManager:self.playerManager containerViewTag:100];
     self.player.controlView = self.controlView;
     self.player.assetURLs = self.urls;
@@ -85,6 +85,13 @@
             });
         }
     };
+    
+    /// 停止的时候找出最合适的播放
+    //@weakify(self)
+    _tableView.scrollViewDidStopScroll = ^(NSIndexPath * _Nonnull indexPath) {
+        @strongify(self)
+        [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
+    };
 }
 -(void)getData{
     
@@ -100,7 +107,7 @@
         
         VideoListModel *model = [VideoListModel modelWithDic:d];
         [array addObject:model];
-        [self.urls addObject:model.video_url];
+        [self.urls addObject:[NSURL URLWithString:model.video_url]];
     }
     
     _dataArray = [NSMutableArray arrayWithArray:array];
@@ -111,7 +118,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 5;
+    return _dataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -121,14 +128,15 @@
     }
     
     VideoListModel *model = _dataArray[indexPath.row];
-    [cell.headerImageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.head]] placeholderImage:[UIImage imageNamed:@""]];
+    [cell.headerImageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.head]] placeholderImage:[UIImage imageNamed:@"headimg.jpg"]];
     cell.headerNameLabel.text = [NSString stringWithFormat:@"%@",model.nick_name];
-    [cell.coverImageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.thumbnail_url]] placeholderImage:[UIImage imageNamed:@"loading_bgView"]];
-    
+    [cell.coverImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.thumbnail_url]] placeholderImage:[UIImage imageNamed:@"loading_bgView"]];
     cell.VideoLabel.text = [NSString stringWithFormat:@"%@",model.title];
-    
+    cell.VideoLabel.textColor = [UIColor whiteColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setDelegate:self withIndexPath:indexPath];
-    
+    [cell setNormalMode];
+
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -138,7 +146,7 @@
     return 280;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
+    //[self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
 }
 - (UIStatusBarStyle)preferredStatusBarStyle {
     if (self.player.isFullScreen) {
@@ -174,6 +182,11 @@
     }
     return _controlView;
 }
+
+- (void)zf_playTheVideoAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    NSLog(@"zhi xing le zhe ge ");
+    [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -189,10 +202,7 @@
 }
 */
 
-- (void)zf_playTheVideoAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    NSLog(@"zhi xing le zhe ge ");
-    [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
-}
+
 
 
 @end
