@@ -29,6 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int cellHight;
 @property (nonatomic, copy) void(^playCallback)(void);
 
+//share wechat qq weibo zan commentgreat
+@property (nonatomic, strong) UIButton *shareBtn;
+@property (nonatomic, strong) UIButton *greatBtn;
+@property (nonatomic, strong) UIButton *commentBtn;
+
 - (void)setDelegate:(id<ZFTableViewCellDelegate>)delegate withIndexPath:(NSIndexPath *)indexPath;
 
 - (void)showMaskView;

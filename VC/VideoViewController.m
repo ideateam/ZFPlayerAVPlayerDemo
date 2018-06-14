@@ -57,6 +57,7 @@
     
     [self getData];
     
+      
     // playerManager
     self.playerManager = [[ZFAVPlayerManager alloc] init];
     

@@ -32,7 +32,7 @@
     UILabel *nameLable = [[UILabel alloc] initWithFrame:CGRectMake(45, 5, 100, 30)];
     self.headerNameLabel = nameLable;
     
-    UIImageView *coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 37,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width * 0.52)];
+    UIImageView *coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 37,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width * 0.53)];
     coverImage.userInteractionEnabled = YES;
     coverImage.contentMode = UIViewContentModeScaleAspectFill;
     coverImage.clipsToBounds = YES;
@@ -53,6 +53,28 @@
     VideoLabel.textColor = [UIColor redColor];
     self.VideoLabel= VideoLabel;
     
+    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40, 280-20-5, 20, 20)];
+    [shareBtn setBackgroundImage:[UIImage imageNamed:@"share-1"] forState:UIControlStateNormal];
+    shareBtn.userInteractionEnabled = YES;
+    [shareBtn addTarget:self action:@selector(playShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.shareBtn = shareBtn;
+    
+    UIButton *commentBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40-20-30, 280-20-5, 25, 25)];
+    [commentBtn setBackgroundImage:[UIImage imageNamed:@"comment-1"] forState:UIControlStateNormal];
+    commentBtn.userInteractionEnabled = YES;
+    [commentBtn addTarget:self action:@selector(playCommentBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.commentBtn = commentBtn;
+    
+    UIButton *greatBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40-20-30-20-30, 280-20-5, 20, 20)];
+    [greatBtn setBackgroundImage:[UIImage imageNamed:@"good"] forState:UIControlStateNormal];
+    [greatBtn setBackgroundImage:[UIImage imageNamed:@"good_click"] forState:UIControlStateSelected];
+    greatBtn.userInteractionEnabled = YES;
+    [greatBtn addTarget:self action:@selector(playGreatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.greatBtn = greatBtn;
+    
+    
+    
+    
     UIView * fullMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height )];
     fullMaskView.userInteractionEnabled = YES;
     fullMaskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
@@ -64,9 +86,21 @@
     [self.contentView addSubview:coverImage];
     [self.coverImageView addSubview:playBTN];
     [self.coverImageView addSubview:VideoLabel];
+    [self.contentView addSubview:shareBtn];
+    [self.contentView addSubview:greatBtn];
+    [self.contentView addSubview:commentBtn];
     [self.contentView addSubview:fullMaskView];
     
     //self.cellHight = 37 + coverImage.frame.size.height + 40 + 5;
+}
+-(void)playShareBtnClick:(UIButton *)sender{
+    
+}
+-(void)playGreatBtnClick:(UIButton *)sender{
+    
+}
+-(void)playCommentBtnClick:(UIButton *)sender{
+    
 }
 - (void)playBtnClick:(UIButton *)sender {
     NSLog(@"playBtnClick");
