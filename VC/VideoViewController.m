@@ -13,6 +13,7 @@
 #import "ZFAVPlayerManager.h"
 #import "ZFPlayerControlView.h"
 #import <KTVHTTPCache/KTVHTTPCache.h>
+#import "VideoDetailPlayViewController.h"
 
 @interface VideoViewController ()<UITableViewDelegate,UITableViewDataSource,ZFTableViewCellDelegate>
 @property (nonatomic,strong) UITableView *tableView;
@@ -55,8 +56,19 @@
     [_tableView registerClass:[VideoListTableViewCell class] forCellReuseIdentifier:@"cellid"];
     [self.view addSubview:_tableView];
     
-    [self getData];
+    //[self getData];
     
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 处理耗时操作的代码块...
+        __weak __typeof__(self) weakSelf = self;
+        [weakSelf getData];
+        //通知主线程刷新
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //回self->调或者说是通知主线程刷新，
+            [weakSelf.tableView reloadData];
+        });
+        
+    });
       
     // playerManager
     self.playerManager = [[ZFAVPlayerManager alloc] init];
@@ -113,7 +125,7 @@
     
     _dataArray = [NSMutableArray arrayWithArray:array];
     NSLog(@"self.urls = %@",self.urls);
-    [_tableView reloadData];
+    //[_tableView reloadData];
     
     //NSLog(@"------------------%ld---------------",_dataArray.count);
 }
@@ -144,10 +156,13 @@
     
     //VideoListTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    return 280;
+    return 245;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //[self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
+    VideoDetailPlayViewController *v = [VideoDetailPlayViewController new];
+    v.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:v animated:YES];
 }
 - (UIStatusBarStyle)preferredStatusBarStyle {
     if (self.player.isFullScreen) {

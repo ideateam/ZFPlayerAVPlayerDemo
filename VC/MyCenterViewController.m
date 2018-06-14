@@ -73,7 +73,9 @@
     }else if ([indexPath section] == 7){
         cell.textLabel.text = _dataArray[6];
     }
-    
+    cell.imageView.image= [UIImage imageNamed:@"headimg.jpg"];
+    cell.imageView.layer.cornerRadius = 25;
+    cell.imageView.clipsToBounds = YES;
     //cell.textLabel.text = _dataArray[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -86,7 +88,7 @@
         return 150;
     }else{
         
-        return 40;
+        return 50;
     }
     
 }
