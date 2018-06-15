@@ -156,7 +156,7 @@
     
     //VideoListTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    return 245;
+    return ([UIScreen mainScreen].bounds.size.width * 0.53+50);
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //[self playTheVideoAtIndexPath:indexPath scrollToTop:NO];

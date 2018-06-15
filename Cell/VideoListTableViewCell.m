@@ -24,14 +24,6 @@
 
 -(void)setUI{
     
-    UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 255-50, 30,30)];
-    headerImage.clipsToBounds = YES;
-    headerImage.layer.cornerRadius = 15;
-    self.headerImageV = headerImage;
-    
-    UILabel *nameLable = [[UILabel alloc] initWithFrame:CGRectMake(55, 255-50, 100, 30)];
-    self.headerNameLabel = nameLable;
-    
     UIImageView *coverImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width * 0.53)];
     coverImage.userInteractionEnabled = YES;
     coverImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -56,19 +48,28 @@
     VideoLabel.textColor = [UIColor redColor];
     self.VideoLabel= VideoLabel;
     
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40, 255-40-5, 20, 20)];
+    
+    UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, coverImage.frame.size.height+10, 30,30)];
+    headerImage.clipsToBounds = YES;
+    headerImage.layer.cornerRadius = 15;
+    self.headerImageV = headerImage;
+    
+    UILabel *nameLable = [[UILabel alloc] initWithFrame:CGRectMake(55, coverImage.frame.size.height+10, 100, 30)];
+    self.headerNameLabel = nameLable;
+    
+    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40, coverImage.frame.size.height+10+5, 20, 20)];
     [shareBtn setBackgroundImage:[UIImage imageNamed:@"share-1"] forState:UIControlStateNormal];
     shareBtn.userInteractionEnabled = YES;
     [shareBtn addTarget:self action:@selector(playShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     self.shareBtn = shareBtn;
     
-    UIButton *commentBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40-20-30, 255-40-5, 25, 25)];
+    UIButton *commentBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40-20-30, coverImage.frame.size.height+10+5, 25, 25)];
     [commentBtn setBackgroundImage:[UIImage imageNamed:@"comment-1"] forState:UIControlStateNormal];
     commentBtn.userInteractionEnabled = YES;
     [commentBtn addTarget:self action:@selector(playCommentBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     self.commentBtn = commentBtn;
     
-    UIButton *greatBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40-20-30-20-30, 255-40-5, 20, 20)];
+    UIButton *greatBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-40-20-30-20-30, coverImage.frame.size.height+10+5, 20, 20)];
     [greatBtn setBackgroundImage:[UIImage imageNamed:@"good"] forState:UIControlStateNormal];
     [greatBtn setBackgroundImage:[UIImage imageNamed:@"good_click"] forState:UIControlStateSelected];
     greatBtn.userInteractionEnabled = YES;
