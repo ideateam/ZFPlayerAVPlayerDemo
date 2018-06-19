@@ -95,7 +95,7 @@
     [self.contentView addSubview:commentBtn];
     [self.contentView addSubview:fullMaskView];
     
-    //self.cellHight = 37 + coverImage.frame.size.height + 40 + 5;
+    //self.cellHight = coverImage.frame.size.height + 40 + 5;
 }
 -(void)tapBGcover{
     

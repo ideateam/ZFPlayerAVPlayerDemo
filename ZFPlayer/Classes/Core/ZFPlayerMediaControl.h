@@ -33,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZFPlayerMediaControl <NSObject>
 
+@required
+/// Current playerController
+@property (nonatomic, weak) ZFPlayerController *player;
+
 @optional
 
 #pragma mark - Playback state

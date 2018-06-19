@@ -1,5 +1,5 @@
 //
-//  ZFUtilities.m
+//  KSMediaPlayerManager.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -22,28 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "ZFPlayerMediaPlayback.h"
 
-#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+#if __has_include(<KSYMediaPlayer/KSYMediaPlayer.h>)
 
-// 图片路径
-#define ZFPlayer_SrcName(file)               [@"ZFPlayer.bundle" stringByAppendingPathComponent:file]
-
-#define ZFPlayer_FrameworkSrcName(file)      [@"Frameworks/ZFPlayer.framework/ZFPlayer.bundle" stringByAppendingPathComponent:file]
-
-#define ZFPlayer_Image(file)                 [UIImage imageNamed:ZFPlayer_SrcName(file)] ? :[UIImage imageNamed:ZFPlayer_FrameworkSrcName(file)]
-
-// 屏幕的宽
-#define ZFPlayer_ScreenWidth                 [[UIScreen mainScreen] bounds].size.width
-// 屏幕的高
-#define ZFPlayer_ScreenHeight                [[UIScreen mainScreen] bounds].size.height
-
-@interface ZFUtilities : NSObject
-
-+ (NSString *)convertTimeSecond:(NSInteger)timeSecond;
-
-+ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
+@interface KSMediaPlayerManager : NSObject <ZFPlayerMediaPlayback>
 
 @end
 
+#endif

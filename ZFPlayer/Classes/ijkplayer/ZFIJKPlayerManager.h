@@ -1,5 +1,5 @@
 //
-//  ZFUtilities.m
+//  ZFIJKPlayerManager.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -22,34 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "ZFUtilities.h"
+#import <Foundation/Foundation.h>
+#import "ZFPlayerMediaPlayback.h"
 
-@implementation ZFUtilities
+#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
 
-+ (NSString *)convertTimeSecond:(NSInteger)timeSecond {
-    NSString *theLastTime = nil;
-    long second = timeSecond;
-    if (timeSecond < 60) {
-        theLastTime = [NSString stringWithFormat:@"00:%02zd", second];
-    } else if(timeSecond >= 60 && timeSecond < 3600){
-        theLastTime = [NSString stringWithFormat:@"%02zd:%02zd", second/60, second%60];
-    } else if(timeSecond >= 3600){
-        theLastTime = [NSString stringWithFormat:@"%02zd:%02zd:%02zd", second/3600, second%3600/60, second%60];
-    }
-    return theLastTime;
-}
-
-+ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
-    if (!color || size.width <= 0 || size.height <= 0) return nil;
-    CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
-    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, color.CGColor);
-    CGContextFillRect(context, rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
-
+@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
 
 @end
+
+#endif

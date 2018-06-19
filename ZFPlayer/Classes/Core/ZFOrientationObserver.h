@@ -57,6 +57,10 @@ typedef NS_ENUM(NSUInteger, ZFRotateType) {
 /// Container view of a small screen state player
 @property (nonatomic, weak) UIView *containerView;
 
+/// Whether automatic screen rotation is supported.
+/// default is YES.
+@property (nonatomic) BOOL shouldAutorotate;
+
 /// If the full screen
 @property (nonatomic, readonly, getter=isFullScreen) BOOL fullScreen;
 

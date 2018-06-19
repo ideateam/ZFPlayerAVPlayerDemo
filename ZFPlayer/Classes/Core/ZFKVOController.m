@@ -36,10 +36,13 @@
 
 @end
 
-@implementation ZFKVOController {
-    __weak NSObject *_target;
-    NSMutableArray  *_observerArray;
-}
+@interface ZFKVOController ()
+@property (nonatomic, weak) NSObject *target;
+@property (nonatomic, strong) NSMutableArray *observerArray;
+
+@end
+
+@implementation ZFKVOController
 
 - (instancetype)initWithTarget:(NSObject *)target {
     self = [super init];

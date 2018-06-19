@@ -10,6 +10,7 @@
 #import "VideoListTableViewCell.h"
 #import "VideoListModel.h"
 #import "UIImageView+WebCache.h"
+#import "ZFPlayer.h"
 #import "ZFAVPlayerManager.h"
 #import "ZFPlayerControlView.h"
 #import <KTVHTTPCache/KTVHTTPCache.h>
@@ -26,12 +27,12 @@
 
 @implementation VideoViewController
 
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    CGFloat y = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    CGFloat h = CGRectGetMaxY(self.view.frame);
-    self.tableView.frame = CGRectMake(0, y, self.view.frame.size.width, h-y);
-}
+//- (void)viewWillLayoutSubviews {
+//    [super viewWillLayoutSubviews];
+//    CGFloat y = CGRectGetMaxY(self.navigationController.navigationBar.frame);
+//    CGFloat h = CGRectGetMaxY(self.view.frame);
+//    self.tableView.frame = CGRectMake(0, y, self.view.frame.size.width, h-y);
+//}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     @weakify(self)
@@ -49,14 +50,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
  
-    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    //self.navigationController.navigationBar.translucent = NO;
+    
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [_tableView registerClass:[VideoListTableViewCell class] forCellReuseIdentifier:@"cellid"];
     [self.view addSubview:_tableView];
     
-    //[self getData];
+    [self getData];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 处理耗时操作的代码块...
@@ -64,7 +67,7 @@
         [weakSelf getData];
         //通知主线程刷新
         dispatch_async(dispatch_get_main_queue(), ^{
-            //回self->调或者说是通知主线程刷新，
+            //回调或者说是通知主线程刷新，
             [weakSelf.tableView reloadData];
         });
         

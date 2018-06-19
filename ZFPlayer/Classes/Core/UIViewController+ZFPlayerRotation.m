@@ -24,56 +24,27 @@
 #import "UIViewController+ZFPlayerRotation.h"
 #import <objc/runtime.h>
 
-@implementation UIViewController (ZFPlayerRotation)
-
-/**
- * If the root view of the window is a UINavigationController, you call this Category first, and then UIViewController+ZFPlayerRotation.
- * All you need to do is revisit the following three methods on a page that supports directions other than portrait。
- */
-
-// Whether automatic screen rotation is supported.
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-// Which screen directions are supported.
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-// The default screen direction (the current ViewController must be represented by a modal UIViewController (which is not valid with modal navigation) to call this method).
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
-
-- (BOOL)prefersStatusBarHidden {
-    return NO;
-}
-
-@end
-
 @implementation UITabBarController (ZFPlayerRotation)
 
 + (void)load {
-    SEL selectors[] = {
-        @selector(selectedIndex)
-    };
-    
-    for (NSUInteger index = 0; index < sizeof(selectors) / sizeof(SEL); ++index) {
-        SEL originalSelector = selectors[index];
-        SEL swizzledSelector = NSSelectorFromString([@"zf_" stringByAppendingString:NSStringFromSelector(originalSelector)]);
-        Method originalMethod = class_getInstanceMethod(self, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(self, swizzledSelector);
-        if (class_addMethod(self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))) {
-            class_replaceMethod(self, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        SEL selectors[] = {
+            @selector(selectedIndex)
+        };
+        
+        for (NSUInteger index = 0; index < sizeof(selectors) / sizeof(SEL); ++index) {
+            SEL originalSelector = selectors[index];
+            SEL swizzledSelector = NSSelectorFromString([@"zf_" stringByAppendingString:NSStringFromSelector(originalSelector)]);
+            Method originalMethod = class_getInstanceMethod(self, originalSelector);
+            Method swizzledMethod = class_getInstanceMethod(self, swizzledSelector);
+            if (class_addMethod(self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))) {
+                class_replaceMethod(self, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+            } else {
+                method_exchangeImplementations(originalMethod, swizzledMethod);
+            }
         }
-    }
+    });
 }
 
 - (NSInteger)zf_selectedIndex {

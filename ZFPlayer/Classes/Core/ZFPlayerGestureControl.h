@@ -66,8 +66,6 @@ typedef NS_OPTIONS(NSUInteger, ZFPlayerDisableGestureTypes) {
 
 @interface ZFPlayerGestureControl : NSObject
 
-- (instancetype)initWithTargetView:(__weak UIView *)view;
-
 @property (nonatomic, copy, nullable) BOOL(^triggerCondition)(ZFPlayerGestureControl *control, ZFPlayerGestureType type, UIGestureRecognizer *gesture, UITouch *touch);
 @property (nonatomic, copy, nullable) void(^singleTapped)(ZFPlayerGestureControl *control);
 @property (nonatomic, copy, nullable) void(^doubleTapped)(ZFPlayerGestureControl *control);
@@ -81,7 +79,8 @@ typedef NS_OPTIONS(NSUInteger, ZFPlayerDisableGestureTypes) {
 @property (nonatomic, readonly) ZFPanMovingDirection panMovingDirection;
 @property (nonatomic) ZFPlayerDisableGestureTypes disableTypes;
 
-- (void)addGestureToControlView;
+- (void)addGestureToView:(UIView *)view;
+- (void)removeGestureToView:(UIView *)view;
 
 @end
 

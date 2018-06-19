@@ -158,6 +158,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) ZFOrientationObserver *orientationObserver;
 
+/// Whether automatic screen rotation is supported.
+/// default is YES.
+@property (nonatomic) BOOL shouldAutorotate;
+
 /// When ZFFullScreenMode is ZFFullScreenModeLandscape the orientation is LandscapeLeft or LandscapeRight, this value is YES.
 /// When ZFFullScreenMode is ZFFullScreenModePortrait, while the player fullSceen this value is YES.
 @property (nonatomic, readonly) BOOL isFullScreen;
@@ -241,6 +245,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Play the indexPath of url ,while the `assetURLs` or `sectionAssetURLs` is not NULL.
 /// `scrollToTop` scroll to top with animations.
 - (void)playTheIndexPath:(NSIndexPath *)indexPath scrollToTop:(BOOL)scrollToTop;
+
+/// Play the indexPath of url ,while the `assetURLs` or `sectionAssetURLs` is not NULL.
+/// `scrollToTop` scroll to top with animations.
+/// Scroll completion callback.
+- (void)playTheIndexPath:(NSIndexPath *)indexPath scrollToTop:(BOOL)scrollToTop completionHandler:(void (^ __nullable)(void))completionHandler;
 
 @end
 
