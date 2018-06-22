@@ -1,12 +1,12 @@
 //
-//  VideoViewController.m
+//  SmallVideoSreenViewController.m
 //  ZFPlayerAVPlayerDemo
 //
-//  Created by Derek on 10/06/18.
-//  Copyright © 2018年 Derek. All rights reserved.
+//  Created by Derek on 2018/6/22.
+//  Copyright © 2018 Derek. All rights reserved.
 //
 
-#import "VideoViewController.h"
+#import "SmallVideoSreenViewController.h"
 #import "VideoListTableViewCell.h"
 #import "VideoListModel.h"
 #import "UIImageView+WebCache.h"
@@ -16,7 +16,7 @@
 #import <KTVHTTPCache/KTVHTTPCache.h>
 #import "VideoDetailPlayViewController.h"
 
-@interface VideoViewController ()<UITableViewDelegate,UITableViewDataSource,ZFTableViewCellDelegate>
+@interface SmallVideoSreenViewController ()<UITableViewDelegate,UITableViewDataSource,ZFTableViewCellDelegate>
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic,strong) NSMutableArray *urls;
@@ -25,14 +25,8 @@
 @property (nonatomic, strong) ZFAVPlayerManager *playerManager;
 @end
 
-@implementation VideoViewController
+@implementation SmallVideoSreenViewController
 
-//- (void)viewWillLayoutSubviews {
-//    [super viewWillLayoutSubviews];
-//    CGFloat y = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-//    CGFloat h = CGRectGetMaxY(self.view.frame);
-//    self.tableView.frame = CGRectMake(0, y, self.view.frame.size.width, h-y);
-//}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     @weakify(self)
@@ -49,8 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
- 
-    //self.navigationController.navigationBar.translucent = NO;
+    
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
     _tableView.dataSource = self;
@@ -72,7 +65,7 @@
         });
         
     });
-      
+    
     // playerManager
     self.playerManager = [[ZFAVPlayerManager alloc] init];
     
@@ -102,12 +95,14 @@
         }
     };
     
-    /// 停止的时候找出最合适的播放
-    //@weakify(self)
-    _tableView.scrollViewDidStopScroll = ^(NSIndexPath * _Nonnull indexPath) {
-        @strongify(self)
-        [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
-    };
+    /// 以下设置滑出屏幕后不停止播放
+    self.player.stopWhileNotVisible = NO;
+    CGFloat margin = 20;
+    CGFloat w = ZFPlayer_ScreenWidth/2;
+    CGFloat h = w * 9/16;
+    CGFloat x = ZFPlayer_ScreenWidth - w - margin;
+    CGFloat y = ZFPlayer_ScreenHeight - h - margin;
+    self.player.smallFloatView.frame = CGRectMake(x, y, w, h);
 }
 -(void)getData{
     
@@ -117,7 +112,7 @@
     NSData *data = [NSData dataWithContentsOfFile:path];
     NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-   // NSLog(@"rootDict = %@",[rootDict valueForKey:@"list"]);
+    // NSLog(@"rootDict = %@",[rootDict valueForKey:@"list"]);
     
     for (NSDictionary * d in [rootDict valueForKey:@"list"] ) {
         
@@ -152,7 +147,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setDelegate:self withIndexPath:indexPath];
     [cell setNormalMode];
-
+    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -220,8 +215,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-
-
 
 @end

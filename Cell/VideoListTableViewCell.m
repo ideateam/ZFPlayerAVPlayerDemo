@@ -79,7 +79,7 @@
     
     
     
-    UIView * fullMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height )];
+    UIView * fullMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.width * 0.53+50)];
     fullMaskView.userInteractionEnabled = YES;
     fullMaskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
     
@@ -132,7 +132,6 @@
     self.headerNameLabel.textColor = [UIColor blackColor];
     self.contentView.backgroundColor = [UIColor whiteColor];
 }
-
 - (void)showMaskView {
     [UIView animateWithDuration:0.3 animations:^{
         self.fullMaskView.alpha = 1;

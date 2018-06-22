@@ -39,6 +39,8 @@
 		CB15F0D120DC9BDD002FBD34 /* ZFPortraitControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15F0C220DC9BDD002FBD34 /* ZFPortraitControlView.m */; };
 		CB15F0D220DC9BDD002FBD34 /* UIImageView+ZFCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15F0C320DC9BDD002FBD34 /* UIImageView+ZFCache.m */; };
 		CB15F0D320DC9BDD002FBD34 /* ZFAVPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15F0C620DC9BDD002FBD34 /* ZFAVPlayerManager.m */; };
+		CB15F0D920DC9E44002FBD34 /* SmallVideoSreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15F0D820DC9E44002FBD34 /* SmallVideoSreenViewController.m */; };
+		CB15F0DC20DC9E8F002FBD34 /* DarkBrightVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15F0DB20DC9E8F002FBD34 /* DarkBrightVideoViewController.m */; };
 		CB20830920CF9C8B00C71FF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB20830820CF9C8900C71FF0 /* CoreGraphics.framework */; };
 		CB20830B20CF9C9300C71FF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB20830A20CF9C9300C71FF0 /* UIKit.framework */; };
 		CB20830D20CF9CA000C71FF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB20830C20CF9CA000C71FF0 /* Foundation.framework */; };
@@ -138,6 +140,10 @@
 		CB15F0C420DC9BDD002FBD34 /* ZFLandScapeControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFLandScapeControlView.h; sourceTree = "<group>"; };
 		CB15F0C620DC9BDD002FBD34 /* ZFAVPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFAVPlayerManager.m; sourceTree = "<group>"; };
 		CB15F0C720DC9BDD002FBD34 /* ZFAVPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFAVPlayerManager.h; sourceTree = "<group>"; };
+		CB15F0D720DC9E44002FBD34 /* SmallVideoSreenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmallVideoSreenViewController.h; sourceTree = "<group>"; };
+		CB15F0D820DC9E44002FBD34 /* SmallVideoSreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmallVideoSreenViewController.m; sourceTree = "<group>"; };
+		CB15F0DA20DC9E8F002FBD34 /* DarkBrightVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DarkBrightVideoViewController.h; sourceTree = "<group>"; };
+		CB15F0DB20DC9E8F002FBD34 /* DarkBrightVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DarkBrightVideoViewController.m; sourceTree = "<group>"; };
 		CB20830820CF9C8900C71FF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CB20830A20CF9C9300C71FF0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CB20830C20CF9CA000C71FF0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -207,6 +213,7 @@
 		658FE97720CCED9A00E45E24 = {
 			isa = PBXGroup;
 			children = (
+				CB15F0DD20DC9EC4002FBD34 /* VideoKind */,
 				658FE9B520CCEE3F00E45E24 /* ZFPlayer */,
 				658FEA0420CCEF8000E45E24 /* VC */,
 				658FEA1A20CCF19700E45E24 /* Model */,
@@ -369,6 +376,17 @@
 				CB15F0C720DC9BDD002FBD34 /* ZFAVPlayerManager.h */,
 			);
 			path = AVPlayer;
+			sourceTree = "<group>";
+		};
+		CB15F0DD20DC9EC4002FBD34 /* VideoKind */ = {
+			isa = PBXGroup;
+			children = (
+				CB15F0D720DC9E44002FBD34 /* SmallVideoSreenViewController.h */,
+				CB15F0D820DC9E44002FBD34 /* SmallVideoSreenViewController.m */,
+				CB15F0DA20DC9E8F002FBD34 /* DarkBrightVideoViewController.h */,
+				CB15F0DB20DC9E8F002FBD34 /* DarkBrightVideoViewController.m */,
+			);
+			path = VideoKind;
 			sourceTree = "<group>";
 		};
 		CBF816F320D8B377007A49E5 /* KSYMediaPlayer */ = {
@@ -606,6 +624,7 @@
 				CB15F0CD20DC9BDD002FBD34 /* ZFSliderView.m in Sources */,
 				CB15F0D320DC9BDD002FBD34 /* ZFAVPlayerManager.m in Sources */,
 				658FEA1320CCF0D700E45E24 /* ShortVideoViewController.m in Sources */,
+				CB15F0D920DC9E44002FBD34 /* SmallVideoSreenViewController.m in Sources */,
 				CBF8173020D8B378007A49E5 /* ZFPlayerView.m in Sources */,
 				658FEA1620CCF0EF00E45E24 /* NewsDetailViewController.m in Sources */,
 				658FE99320CCEDA200E45E24 /* main.m in Sources */,
@@ -619,6 +638,7 @@
 				CBF8173220D8B378007A49E5 /* ZFReachabilityManager.m in Sources */,
 				658FEA0A20CCEFE700E45E24 /* VideoViewController.m in Sources */,
 				CB15F0D120DC9BDD002FBD34 /* ZFPortraitControlView.m in Sources */,
+				CB15F0DC20DC9E8F002FBD34 /* DarkBrightVideoViewController.m in Sources */,
 				658FEA0320CCEF5400E45E24 /* TabBarViewController.m in Sources */,
 				658FEA1920CCF11E00E45E24 /* VideoDetailPlayViewController.m in Sources */,
 				CB123F0C20D0ED990078C96E /* VideoListTableViewCell.m in Sources */,

@@ -11,6 +11,8 @@
 #import "VideoViewController.h"
 #import "FriendCircleViewController.h"
 #import "MyCenterViewController.h"
+#import "SmallVideoSreenViewController.h"
+#import "DarkBrightVideoViewController.h"
 
 @interface TabBarViewController ()
 
@@ -30,11 +32,11 @@
     s.title = @"Video";
     UINavigationController * snav = [[UINavigationController alloc]initWithRootViewController:s];
     
-    FriendCircleViewController *t = [[FriendCircleViewController alloc]init];
+    SmallVideoSreenViewController *t = [[SmallVideoSreenViewController alloc]init];
     t.title = @"FriendCircle";
     UINavigationController * tnav = [[UINavigationController alloc]initWithRootViewController:t];
     
-    MyCenterViewController *m = [[MyCenterViewController alloc] init];
+    DarkBrightVideoViewController *m = [[DarkBrightVideoViewController alloc] init];
     m.title = @"MyCenter";
     UINavigationController *mnav = [[UINavigationController alloc]initWithRootViewController:m];
     

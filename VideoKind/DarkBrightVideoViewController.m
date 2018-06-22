@@ -1,12 +1,13 @@
 //
-//  VideoViewController.m
+//  DarkBrightVideoViewController.m
 //  ZFPlayerAVPlayerDemo
 //
-//  Created by Derek on 10/06/18.
-//  Copyright © 2018年 Derek. All rights reserved.
+//  Created by Derek on 2018/6/22.
+//  Copyright © 2018 Derek. All rights reserved.
 //
 
-#import "VideoViewController.h"
+#import "DarkBrightVideoViewController.h"
+
 #import "VideoListTableViewCell.h"
 #import "VideoListModel.h"
 #import "UIImageView+WebCache.h"
@@ -16,7 +17,7 @@
 #import <KTVHTTPCache/KTVHTTPCache.h>
 #import "VideoDetailPlayViewController.h"
 
-@interface VideoViewController ()<UITableViewDelegate,UITableViewDataSource,ZFTableViewCellDelegate>
+@interface DarkBrightVideoViewController ()<UITableViewDelegate,UITableViewDataSource,ZFTableViewCellDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic,strong) NSMutableArray *urls;
@@ -25,14 +26,8 @@
 @property (nonatomic, strong) ZFAVPlayerManager *playerManager;
 @end
 
-@implementation VideoViewController
+@implementation DarkBrightVideoViewController
 
-//- (void)viewWillLayoutSubviews {
-//    [super viewWillLayoutSubviews];
-//    CGFloat y = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-//    CGFloat h = CGRectGetMaxY(self.view.frame);
-//    self.tableView.frame = CGRectMake(0, y, self.view.frame.size.width, h-y);
-//}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     @weakify(self)
@@ -40,6 +35,8 @@
         @strongify(self)
         [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
     }];
+    VideoListTableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.tableView.shouldPlayIndexPath];
+    [cell hideMaskView];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -49,8 +46,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
- 
-    //self.navigationController.navigationBar.translucent = NO;
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) style:UITableViewStylePlain];
     _tableView.dataSource = self;
@@ -58,6 +53,21 @@
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [_tableView registerClass:[VideoListTableViewCell class] forCellReuseIdentifier:@"cellid"];
     [self.view addSubview:_tableView];
+    
+//    if (@available(iOS 11.0, *)) {
+//        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+//    } else {
+//        self.automaticallyAdjustsScrollViewInsets = NO;
+//    }
+//    _tableView.separatorColor = [UIColor darkGrayColor];
+//    [[UITableView appearance] setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+//    [[UITableView appearance] setSeparatorInset:UIEdgeInsetsZero];
+//    [[UITableViewCell appearance] setSeparatorInset:UIEdgeInsetsZero];
+//    if ([UITableView instancesRespondToSelector:@selector(setLayoutMargins:)]) {
+//        [[UITableView appearance] setLayoutMargins:UIEdgeInsetsZero];
+//        [[UITableViewCell appearance] setLayoutMargins:UIEdgeInsetsZero];
+//        [[UITableViewCell appearance] setPreservesSuperviewLayoutMargins:NO];
+//    }
     
     [self getData];
     
@@ -72,14 +82,14 @@
         });
         
     });
-      
+    
     // playerManager
     self.playerManager = [[ZFAVPlayerManager alloc] init];
     
     self.player = [[ZFPlayerController alloc] initWithScrollView:self.tableView playerManager:self.playerManager containerViewTag:100];
     self.player.controlView = self.controlView;
     self.player.assetURLs = self.urls;
-    self.player.shouldAutoPlay = NO;//开启此开关即可自动播放
+    self.player.shouldAutoPlay = YES;//开启此开关即可自动播放
     
     @weakify(self)
     self.player.orientationWillChange = ^(ZFPlayerController * _Nonnull player, BOOL isFullScreen) {
@@ -99,14 +109,9 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.player.orientationObserver.duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.player stopCurrentPlayingCell];
             });
+        }else {
+            [self.player stopCurrentPlayingCell];
         }
-    };
-    
-    /// 停止的时候找出最合适的播放
-    //@weakify(self)
-    _tableView.scrollViewDidStopScroll = ^(NSIndexPath * _Nonnull indexPath) {
-        @strongify(self)
-        [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
     };
 }
 -(void)getData{
@@ -117,7 +122,7 @@
     NSData *data = [NSData dataWithContentsOfFile:path];
     NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
-   // NSLog(@"rootDict = %@",[rootDict valueForKey:@"list"]);
+    // NSLog(@"rootDict = %@",[rootDict valueForKey:@"list"]);
     
     for (NSDictionary * d in [rootDict valueForKey:@"list"] ) {
         
@@ -151,8 +156,8 @@
     cell.VideoLabel.textColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setDelegate:self withIndexPath:indexPath];
-    [cell setNormalMode];
-
+    //[cell setDarkMode];
+    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -206,6 +211,22 @@
     NSLog(@"zhi xing le zhe ge ");
     [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
 }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    NSLog(@"scrollViewDidScroll");
+    @weakify(self)
+    [scrollView zf_filterShouldPlayCellWhileScrolling:^(NSIndexPath *indexPath) {
+        if ([indexPath compare:self.tableView.shouldPlayIndexPath] != NSOrderedSame) {
+            @strongify(self)
+            /// 显示黑色蒙版
+            VideoListTableViewCell *cell1 = [self.tableView cellForRowAtIndexPath:self.tableView.shouldPlayIndexPath];
+            [cell1 showMaskView];
+            /// 隐藏黑色蒙版
+            VideoListTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            [cell hideMaskView];
+        }
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -220,8 +241,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-
-
 
 @end
